@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Printing - Professional & Clean</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. SETUP PALET WARNA & VARIABEL --- */
+        :root {
+            --bg-cream: #f5f5dc;       /* Background Utama */
+            --navy: #0f2440;           /* Teks Utama, Heading */
+            --green: #96c046;          /* Tombol, Highlight */
+            --blue: #5170ff;           /* Ikon, Aksen Timeline */
+            --white: #ffffff;          /* Kartu */
+            --shadow-soft: 0 10px 30px rgba(15, 36, 64, 0.05); /* Bayangan Halus */
+            --radius-soft: 24px;       /* Sudut Melengkung */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Efek scroll halus */
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--navy);
+            line-height: 1;
+
+            /* --- IMPLEMENTASI LATAR BELAKANG BARU (Garis Abstrak) --- */
+            /* Menggunakan SVG Wave dengan Opacity 0.4 (40%) */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='40' viewBox='0 0 100 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q 25 30 50 20 T 100 20' stroke='%235170ff' fill='none' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E");
+            background-size: 100px 40px; /* Ukuran pola */
+            background-attachment: fixed; /* Efek Parallax */
+        }
+
+        a { text-decoration: none; }
+        ul { list-style: none; }
+
+        /* --- 2. UTILITY & LAYOUT --- */
+        .container {
+            max-width: 1000px; /* Lebih sempit agar fokus/intim */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn-pill {
+            display: inline-block;
+            background-color: var(--green);
+            color: var(--navy);
+            padding: 14px 35px;
+            border-radius: 50px; /* Bentuk Pil */
+            font-weight: 600;
+            transition: all 0.1s ease;
+            position: relative;
+            top: 0;
+            
+            /* EFEK TIMBUL / 3D */
+            box-shadow: 0 5px 0 #7a9c35, 0 10px 10px rgba(0,0,0,0.1); 
+        }
+
+        .btn-pill:hover {
+            transform: translateY(-2px);
+            background-color: #a6d44d; /* Sedikit lebih terang saat di-hover */
+            box-shadow: 0 7px 0 #7a9c35, 0 12px 15px rgba(0,0,0,0.15);
+        }
+
+        .btn-pill:active {
+            top: 5px; /* Turun ke bawah seolah ditekan */
+            box-shadow: 0 0 0 #7a9c35, inset 0 2px 5px rgba(0,0,0,0.1);
+            transform: translateY(0);
+        }
+
+        /* --- 3. HEADER & HERO SECTION --- */
+        header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--navy);
+        }
+
+        .logo i { color: var(--green); }
+
+        .hero {
+            padding: 60px 0 80px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            position: relative;
+            
+            /* Hapus background khusus hero agar background body terlihat */
+            background-image: none;
+        }
+
+        .hero-text { 
+            flex: 1; 
+            background: rgba(245, 245, 220, 0.8); /* Overlay tipis agar teks terbaca jelas (Strategi B) */
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(2px);
+        }
+        
+        .hero-visual { flex: 1; display: flex; justify-content: center; }
+
+        .hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #98C93C;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #5a6b7c; /* Navy pudar */
+            margin-bottom: 30px;
+        }
+
+        /* Abstract Shape Background untuk Hero Visual */
+        .blob-bg {
+            width: 350px;
+            height: 350px;
+            background-color: var(--navy);
+            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; /* Bentuk organik */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: morph 8s ease-in-out infinite;
+            flex-direction: column; /* Menyusun teks dan ikon secara vertikal */
+            text-align: center;
+        }
+
+        .blob-bg i {
+            font-size: 8rem;
+            color: var(--bg-cream);
+        }
+
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        /* --- 4. CARDS (SERVICES) --- */
+        .section-padding { padding: 80px 0; }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .card-soft {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: var(--radius-soft);
+            box-shadow: var(--shadow-soft);
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .card-soft:hover {
+            transform: translateY(-10px);
+            border-color: var(--blue);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(81, 112, 255, 0.1); /* Biru transparan */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: var(--blue);
+        }
+
+        /* Animasi Berkedip (Pulse) */
+        @keyframes pulse-blink {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .icon-box i {
+            animation: pulse-blink 2s infinite ease-in-out;
+        }
+
+        .card-soft h3 { margin-bottom: 10px; font-size: 1.2rem; }
+        .card-soft p { font-size: 0.95rem; color: #666; line-height: 1.6; }
+
+        /* --- 5. TIMELINE (HOW IT WORKS) --- */
+        .timeline-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            padding-left: 40px; /* Ruang untuk garis */
+        }
+
+        /* Garis Vertikal */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #dcdcd0; /* Warna abu cream */
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        /* Titik/Dot pada garis */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px; /* Menyesuaikan posisi garis */
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            background-color: var(--bg-cream); /* Tengah bolong */
+            border: 3px solid var(--blue);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:hover::before {
+            background-color: var(--green);
+            border-color: var(--green);
+        }
+
+        .timeline-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item p { color: #666; }
+
+        /* --- 6. PRICING CARD (MENU STYLE) --- */
+        .pricing-card {
+            background: var(--white);
+            border-radius: var(--radius-soft);
+            padding: 40px;
+            box-shadow: var(--shadow-soft);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .price-list { margin-top: 20px; }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dashed #eee; /* Garis putus-putus halus */
+        }
+
+        .price-item:last-child { border-bottom: none; }
+
+        .price-name { font-weight: 500; color: #555; }
+        .price-value { font-weight: 700; color: var(--navy); }
+
+        /* --- 7. FOOTER --- */
+        footer {
+            background-color: var(--navy);
+            color: var(--bg-cream);
+            padding: 60px 20px 30px;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            margin-top: 60px;
+            text-align: center;
+            position: relative;
+            
+            /* Pola titik juga untuk footer tapi lebih samar */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+            background-size: 20px 20px;
+        }
+
+        .footer-content { max-width: 600px; margin: 0 auto; position: relative; z-index: 2; }
+        .footer-content h2 { margin-bottom: 20px; color: var(--green); }
+        .contact-info p { margin-bottom: 10px; opacity: 0.9; }
+        .socials { margin-top: 30px; margin-bottom: 30px; }
+        .socials a { 
+            color: var(--bg-cream); 
+            font-size: 2.5rem; /* Diperbesar dari 1.5rem */
+            margin: 0 10px; 
+            transition: 0.3s; 
+        }
+        .socials a:hover { color: var(--green); }
+        .copyright { font-size: 0.8rem; opacity: 0.5; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero { flex-direction: column-reverse; text-align: center; }
+            .hero h1 { font-size: 2.2rem; }
+            .blob-bg { width: 280px; height: 280px; margin-bottom: 20px; }
+            .timeline-container { padding-left: 30px; }
+            .timeline-item::before { left: -36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <div class="logo" style="display: flex; align-items: center;">
+                <img src="assets/images/logo.png" alt="Logo DinoPrinting" width="150">
+                <div><span style="color: #98C93C;">Dino</span>Printing</div>
+            </div>
+            <!-- Update tombol Header -->
+            <a href="https://api.whatsapp.com/send/?phone=6281376150047&text&type=phone_number&app_absent=0" target="_blank" class="btn-pill" style="padding: 10px 25px; font-size: 0.9rem;">
+                Pesan Sekarang
+            </a>
+        </div>
+    </header>
+
+    <section class="hero container">
+        <div class="hero-text">
+            <h1>Cetak Mudah, <span style="color: #102542;">Dimana Saja, Kapan Saja</span></h1>
+            <p>Solusi print anti-drama buat mahasiswa. Kamu kirim file sambil rebahan, kami cetak dan antar sampai depan rumah.</p>
+           <!-- Update tombol Hero -->
+           <a href="https://api.whatsapp.com/send/?phone=6281376150047&text&type=phone_number&app_absent=0" target="_blank" class="btn-pill">
+                Pesan Sekarang via WA
+            </a>
+        </div>
+        <div class="hero-visual">
+            <!-- Update visual blob: Tambah tulisan Cara Pesan di atas ikon -->
+            <a href="#carapesan" class="blob-bg" title="Klik untuk lihat cara pesan" style="text-decoration: none;">
+                <span style="font-size: 1.5rem; color: var(--bg-cream); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Cara Pesan</span>
+                <i class="fas fa-print"></i>
+            </a>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Kenapa Pilih DinoPrinting?</h2>
+            <div class="cards-grid">
+                <div class="card-soft">
+                    <div class="icon-box"><i class="fas fa-motorcycle"></i></div>
+                    <h3>Delivery Service</h3>
+                    <p>Hujan? Panas? Mager? Tenang, kurir kami yang akan bergerak mengantarkan tugasmu.</p>
+                </div>
+                <div class="card-soft">
+                    <div class="icon-box"><i class="fas fa-file-circle-check"></i></div>
+                    <h3>Format Guarantee</h3>
+                    <p>Kami cek kembali file sebelum cetak, hasil di jamin rapi.</p>
+                </div>
+                <div class="card-soft">
+                    <div class="icon-box"><i class="fas fa-wallet"></i></div>
+                    <h3>Full Cashless</h3>
+                    <p>Support QRIS, Dana, ShopeePay. Nggak perlu repot cari uang pas/kembalian.</p>
+                </div>
+                <div class="card-soft">
+                    <div class="icon-box"><i class="fas fa-moon"></i></div>
+                    <h3>Deadliners Friend</h3>
+                    <p>Layanan buka sampai 24.00 WIB. Penyelamat di malam-malam genting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION DAFTAR HARGA -->
+    <section id="harga" class="section-padding" style="background-color: rgba(255,255,255,0.5);">
+        <div class="container">
+            <h2 class="section-title">Daftar Harga</h2>
+            <div class="pricing-card">
+                <div class="price-list">
+                    <div class="price-item">
+                        <span class="price-name">Print Hitam Putih (A4)</span>
+                        <span class="price-value">Rp 300 /lbr</span>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-name">Print Warna (A4)</span>
+                        <span class="price-value">Rp 500 /lbr</span>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-name">Print Full Warna (A4)</span>
+                        <span class="price-value">Rp 1.000 /lbr</span>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-name">Jilid Lakban</span>
+                        <span class="price-value">Mulai Rp 5.000</span>
+                    </div>
+                    <div class="price-item">
+                        <div style="display: flex; flex-direction: column;">
+                            <span class="price-name" style="color: var(--blue); font-weight: bold;">Ongkos Kirim</span>
+                            <small style="font-size: 0.75rem; color: #666; font-style: italic; margin-top: 2px;">(minimal total print Rp. 30.000 yah)</small>
+                        </div>
+                        <span class="price-value">Start Rp 5.000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="carapesan" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Cara Pesan</h2>
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <span class="timeline-number">Langkah 01</span>
+                    <h3>Chat & Upload</h3>
+                    <p>Klik tombol WA dan kirim file tugas kamu (PDF lebih disarankan).</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-number">Langkah 02</span>
+                    <h3>Konfirmasi Biaya</h3>
+                    <p>Admin akan menghitung total halaman, lalu memberikan total harga.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-number">Langkah 03</span>
+                    <h3>Pembayaran</h3>
+                    <p>Lakukan pembayaran via Transfer atau Scan QRIS. Kirim bukti transfer.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-number">Langkah 04</span>
+                    <h3>Selesai & Antar</h3>
+                    <p>Tugas di proses dan selesai. kamu bisa ambil di DinoPrinting atau tinggal tunggu saja, kurir kami akan antar tugas mu sampai rumah.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h2>Dino Printing </h2>
+            <div class="contact-info">
+                <p><i class="fas fa-map-marker-alt"></i> Jl. Kauman dekat Al Baik</p>
+                <p><i class="far fa-clock"></i> 07.00 – 24.00 WIB (batas pengantaran jam 22.00 yahh)</p>
+                <p>
+                    <a href="https://api.whatsapp.com/send/?phone=6281376150047&text&type=phone_number&app_absent=0" target="_blank" style="color: inherit; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='#96c046'" onmouseout="this.style.color='inherit'">
+                        <i class="fab fa-whatsapp"></i> 0813 7615 0047
+                    </a>
+                </p>
+                <p>
+                    <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSPFrCVBpVPPcJzlmjGTQgRKffKNQWsQqWpFqKqllKlJHDWbLxVwGTWPtcSpqRMXlwSJtjvZ" target="_blank" style="color: inherit; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='#96c046'" onmouseout="this.style.color='inherit'">
+                        <i class="far fa-envelope"></i> dinoprintingg@gmail.com
+                    </a>
+                </p>
+            </div>
+            
+            <div class="socials">
+                <a href="https://www.instagram.com/dinoprinting_/" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+
+            <div class="copyright">
+                &copy; 2026 Dino Printing. Dibuat untuk Mahasiswa.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
